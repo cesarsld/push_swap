@@ -1,0 +1,9 @@
+.DS_Store
+*.a
+*.so
+*.o
+*.out
+.vscode
+copy.h
+push_swap
+checker
