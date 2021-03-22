@@ -6,11 +6,11 @@
 /*   By: cjaimes <cjaimes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 19:15:08 by cjaimes           #+#    #+#             */
-/*   Updated: 2021/03/04 22:16:59 by cjaimes          ###   ########.fr       */
+/*   Updated: 2021/03/22 13:43:48 by cjaimes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "swap.h"
 
 void	swap_first(t_bucket *bk)
 {

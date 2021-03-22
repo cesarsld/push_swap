@@ -6,12 +6,12 @@
 /*   By: cjaimes <cjaimes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 17:06:15 by cjaimes           #+#    #+#             */
-/*   Updated: 2021/03/04 21:42:35 by cjaimes          ###   ########.fr       */
+/*   Updated: 2021/03/22 13:44:23 by cjaimes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHECKER_H
-# define CHECKER_H
+#ifndef SWAP_H
+# define SWAP_H
 # include "libft.h"
 # include "ft_printf.h"
 

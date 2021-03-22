@@ -6,11 +6,11 @@
 /*   By: cjaimes <cjaimes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 17:05:49 by cjaimes           #+#    #+#             */
-/*   Updated: 2021/03/22 10:59:41 by cjaimes          ###   ########.fr       */
+/*   Updated: 2021/03/22 14:52:25 by cjaimes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "swap.h"
 
 int		is_number_n_e(char *input, int size)
 {
@@ -31,7 +31,7 @@ int		is_number_n_e(char *input, int size)
 	return (1);
 }
 
-t_link	*check_valid_args(int ac, char **args)
+t_link	*check_valid_args(int ac, char **args, int* array)
 {
 	t_link *first;
 	t_link *list;
@@ -44,11 +44,13 @@ t_link	*check_valid_args(int ac, char **args)
 		if (is_number_n_e(args[i + 1], ft_strlen(args[i + 1])))
 		{
 			list = ft_lnknew(ft_atoi(args[i + 1]));
+			array[i] = ft_atoi(args[i + 1]);
 			ft_lnkadd_back(&first, list);
 		}	
 		else {
 			ft_printf("ERROR\n");
 			ft_lnkclear(&first);
+			free(array);
 			exit(1);
 		}
 		i++;
@@ -125,25 +127,24 @@ int	check_in_order(t_bucket *b, int total)
 	return (1);
 }
 
-int	find_median(t_bucket *b)
-{
-	t_link	*first;
-	int		med;
-	int		over;
-	int		under;
-	int		min;
-	int		max;
+void	bubblesort(int* array, int len) {
+	int i;
+	int j;
 
-	med = b->stack->value;
-	min = med;
-	max = med;
-	over =  0;
-	under = 0;
-	first = b->stack->next;
-	while (first)
+	i = 0;
+	while (i < len)
 	{
-		if (first->value > max)
-			max = 
+		j = i;
+		while (j < len - 1) {
+			if (array[j] > array[j + 1])
+			{
+				array[j] = array[ j] ^ array[j + 1];
+				array[j + 1] = array[j] ^ array[j + 1];
+				array[j] = array[j] ^ array[j + 1];
+				j++;
+			}
+		}
+		i++;
 	}
 }
 
@@ -152,10 +153,12 @@ int main(int ac, char **av)
 	t_bucket main;
 	t_bucket reserve;
 	char	*user_input;
+	int		*array;
 
 	if (ac == 1)
 		return (0);
-	main.stack = check_valid_args(ac - 1, av);
+	array = malloc(sizeof(int) * ac);
+	main.stack = check_valid_args(ac - 1, av, array);
 	main.last = ft_lnklast(main.stack);
 	main.length = ac - 1;
 	reserve.stack = 0;

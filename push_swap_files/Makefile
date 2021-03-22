@@ -6,7 +6,7 @@
 #    By: cjaimes <cjaimes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 18:36:00 by cjaimes           #+#    #+#              #
-#    Updated: 2021/03/16 15:27:32 by cjaimes          ###   ########.fr        #
+#    Updated: 2021/03/22 12:33:05 by cjaimes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRCS		=	${addprefix ${SRC_DIR}, ${SRC}}
 
 OBJS		=	${patsubst ${SRC_DIR}%.c,${OBJ_DIR}%.o,${SRCS}}
 
-NAME		=	checker
+NAME		=	push_swap
 
 RM			=	rm -f
 

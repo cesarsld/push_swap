@@ -6,11 +6,11 @@
 /*   By: cjaimes <cjaimes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 20:10:19 by cjaimes           #+#    #+#             */
-/*   Updated: 2021/03/04 20:25:40 by cjaimes          ###   ########.fr       */
+/*   Updated: 2021/03/22 13:43:39 by cjaimes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "swap.h"
 
 t_link	*ft_lnklast(t_link *lst)
 {
