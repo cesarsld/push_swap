@@ -6,7 +6,7 @@
 /*   By: cjaimes <cjaimes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 17:05:49 by cjaimes           #+#    #+#             */
-/*   Updated: 2021/03/04 22:27:49 by cjaimes          ###   ########.fr       */
+/*   Updated: 2021/03/23 14:26:13 by cjaimes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,32 @@ int		is_number_n_e(char *input, int size)
 	return (1);
 }
 
+int		split_arg(t_link **first, char *arg) {
+	char	**split;
+	char	**copy;
+	t_link	*ele;
+
+	split = ft_split(arg, ' ');
+	copy = split;
+	while (*split)
+	{
+		if (is_number_n_e(*split, ft_strlen(*split)))
+		{
+			ele = ft_lnknew(ft_atoi(*split));
+			ft_lnkadd_back(first, ele);
+		}
+		else {
+			ft_printf("ERROR\n");
+			ft_lnkclear(first);
+			free(copy);
+			exit(1);
+		}
+		split++;
+	}
+	free(copy);
+	return (0);
+}
+
 t_link	*check_valid_args(int ac, char **args)
 {
 	t_link *first;
@@ -45,12 +71,9 @@ t_link	*check_valid_args(int ac, char **args)
 		{
 			list = ft_lnknew(ft_atoi(args[i + 1]));
 			ft_lnkadd_back(&first, list);
-		}	
-		else {
-			ft_printf("ERROR\n");
-			ft_lnkclear(&first);
-			exit(1);
 		}
+		else
+			split_arg(&first, args[i + 1]);
 		i++;
 	}
 	return (first);
@@ -130,32 +153,41 @@ int main(int ac, char **av)
 	t_bucket main;
 	t_bucket reserve;
 	char	*user_input;
+	int		total;
 
 	if (ac == 1)
 		return (0);
 	main.stack = check_valid_args(ac - 1, av);
 	main.last = ft_lnklast(main.stack);
-	main.length = ac - 1;
+	main.length = ft_lnk_count(main.stack);
+	total = main.length;
 	reserve.stack = 0;
 	reserve.last = 0;
 	if (!main.stack)
 		return (0);
 	reserve.length = 0;
-	if (ac == 2)
+	if (main.length == 1)
 	{
 		ft_printf("OK\n");
 		return(0);
 	}
 	while (1)
 	{
-		if (check_in_order(&main, ac - 1))
+		if (check_in_order(&main, total))
 		{
 			ft_lnkclear(&(main.stack));
 			ft_printf("OK\n");
 			return(0);
 		}
 		if (!get_next_line(STDIN_FILENO, &user_input))
+		{
+			if (check_in_order(&main, total))
+				ft_printf("OK\n");
+			else
+				ft_printf("KO\n");
+			ft_lnkclear(&(main.stack));
 			return (0);
+		}
 		if (ft_strcmp(user_input, "sa") == 0)
 			swap_first(&main);
 		else if (ft_strcmp(user_input, "sb") == 0)

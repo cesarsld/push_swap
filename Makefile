@@ -6,7 +6,7 @@
 #    By: cjaimes <cjaimes@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 18:36:00 by cjaimes           #+#    #+#              #
-#    Updated: 2021/03/15 18:07:03 by cjaimes          ###   ########.fr        #
+#    Updated: 2021/03/23 14:37:29 by cjaimes          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,9 +35,11 @@ _CYAN	=	\033[36m
 _GREEN	=	\033[32m
 ECHO	=	"[`expr $C  '*' 100 / $T`%]"
 
-all:	${NAME}
+ARG		=	"5 1 4 2 3"
 
-${NAME}:
+all:	push_swap
+
+push_swap:
 	${MAKE} -C ${SWAP_DIR}
 	cp ${SWAP_DIR}push_swap push_swap
 	${MAKE} -C ${CHECK_DIR}
@@ -45,6 +47,14 @@ ${NAME}:
 
 run : all
 	./${NAME}
+
+test:
+	rm push_swap checker
+	${MAKE} -C ${SWAP_DIR}
+	cp ${SWAP_DIR}push_swap push_swap
+	${MAKE} -C ${CHECK_DIR}
+	cp ${CHECK_DIR}checker checker
+	./push_swap ${ARG} | ./checker ${ARG}
 
 bonus: all
 

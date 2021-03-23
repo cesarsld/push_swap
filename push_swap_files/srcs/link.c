@@ -6,7 +6,7 @@
 /*   By: cjaimes <cjaimes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 20:10:19 by cjaimes           #+#    #+#             */
-/*   Updated: 2021/03/22 13:43:39 by cjaimes          ###   ########.fr       */
+/*   Updated: 2021/03/23 13:40:01 by cjaimes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,17 @@ void	ft_lnkclear(t_link **lst)
 		*lst = next;
 	}
 	first = NULL;
+}
+
+int		ft_lnk_count(t_link *lst)
+{
+	int count;
+
+	count = 0;
+	while (lst)
+	{
+		++count;
+		lst = lst->next;
+	}
+	return (count);
 }

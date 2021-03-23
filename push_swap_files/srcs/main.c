@@ -6,7 +6,7 @@
 /*   By: cjaimes <cjaimes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 17:05:49 by cjaimes           #+#    #+#             */
-/*   Updated: 2021/03/22 20:01:33 by cjaimes          ###   ########.fr       */
+/*   Updated: 2021/03/23 15:40:18 by cjaimes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,33 @@ int		is_number_n_e(char *input, int size)
 	return (1);
 }
 
-t_link	*check_valid_args(int ac, char **args, int* array)
+int		split_arg(t_link **first, char *arg) {
+	char	**split;
+	char	**copy;
+	t_link	*ele;
+
+	split = ft_split(arg, ' ');
+	copy = split;
+	while (*split)
+	{
+		if (is_number_n_e(*split, ft_strlen(*split)))
+		{
+			ele = ft_lnknew(ft_atoi(*split));
+			ft_lnkadd_back(first, ele);
+		}
+		else {
+			ft_printf("ERROR\n");
+			ft_lnkclear(first);
+			free(copy);
+			exit(1);
+		}
+		split++;
+	}
+	free(copy);
+	return (0);
+}
+
+t_link	*check_valid_args(int ac, char **args)
 {
 	t_link *first;
 	t_link *list;
@@ -44,15 +70,10 @@ t_link	*check_valid_args(int ac, char **args, int* array)
 		if (is_number_n_e(args[i + 1], ft_strlen(args[i + 1])))
 		{
 			list = ft_lnknew(ft_atoi(args[i + 1]));
-			array[i] = ft_atoi(args[i + 1]);
 			ft_lnkadd_back(&first, list);
-		}	
-		else {
-			ft_printf("ERROR\n");
-			ft_lnkclear(&first);
-			free(array);
-			exit(1);
 		}
+		else
+			split_arg(&first, args[i + 1]);
 		i++;
 	}
 	return (first);
@@ -140,8 +161,8 @@ void	bubblesort(int* array, int len) {
 				array[j] = array[ j] ^ array[j + 1];
 				array[j + 1] = array[j] ^ array[j + 1];
 				array[j] = array[j] ^ array[j + 1];
-				j++;
 			}
+			j++;
 		}
 		len--;
 	}
@@ -168,35 +189,57 @@ void	sort_from_pivot(t_bucket *a, t_bucket *b, int pivot, int len)
 	}
 }
 
+void	fill_array(int *arr, t_link *list)
+{
+	while (list)
+	{
+		*arr = list->value;
+		arr++;
+		list = list->next;
+	}
+}
+
 int main(int ac, char **av)
 {
 	t_bucket main;
 	t_bucket reserve;
 	int		*array;
+
 	int		min;
 	int		med;
 	int		max;
 
 	if (ac == 1)
 		return (0);
-	array = malloc(sizeof(int) * ac);
-	main.stack = check_valid_args(ac - 1, av, array);
+	main.stack = check_valid_args(ac - 1, av);
 	main.last = ft_lnklast(main.stack);
-	main.length = ac - 1;
+	main.length = ft_lnk_count(main.stack);
+	array = malloc(sizeof(int) * (main.length + 1));
+	if (!array)
+	{
+		return (0);
+	}
+	fill_array(array, main.stack);
 	reserve.stack = 0;
 	reserve.last = 0;
 	if (!main.stack)
 		return (0);
 	reserve.length = 0;
-	if (ac == 2)
+	if (main.length == 1)
 	{
 		ft_printf("OK\n");
 		return(0);
 	}
-	bubblesort(array, ac - 1);
+	bubblesort(array, main.length);
 	min = array[0];
-	med = array[(ac - 1) / 2 + ((ac - 1) % 2)];
-	max = array[ac - 2];
-	sort_from_pivot(&main, &reserve, med, ac - 1);
+	med = array[(main.length - 1) / 2 + ((main.length - 1) % 2)];
+	max = array[main.length - 2];
+	sort_from_pivot(&main, &reserve, med, main.length);
+	// from this moment, hi array is on main stack, low array in reserve
+
+	// algo:
+	// step 1: find median of whole array
+	// step 2: sort array in 2 sub arrays (2 stacks) with hi on one side, lo on other
+	// step 3: recurively find median on one side and keep sorting until sub array length is small enough so solve linearly
 
 }

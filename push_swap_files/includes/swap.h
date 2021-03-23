@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker.h                                          :+:      :+:    :+:   */
+/*   swap.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cjaimes <cjaimes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 17:06:15 by cjaimes           #+#    #+#             */
-/*   Updated: 2021/03/04 21:42:35 by cjaimes          ###   ########.fr       */
+/*   Updated: 2021/03/23 13:36:24 by cjaimes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_lnkadd_back(t_link **alst, t_link *new);
 void	ft_lnkdelone(t_link *lst);
 void	ft_lnkclear(t_link **lst);
 t_link	*ft_lnklast(t_link *lst);
+int		ft_lnk_count(t_link *lst);
 
 void	swap_first(t_bucket *bk);
 void	rotate(t_bucket *bucket);
