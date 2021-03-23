@@ -6,7 +6,7 @@
 /*   By: cjaimes <cjaimes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 17:05:49 by cjaimes           #+#    #+#             */
-/*   Updated: 2021/03/22 14:52:25 by cjaimes          ###   ########.fr       */
+/*   Updated: 2021/03/22 20:01:33 by cjaimes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,14 +128,13 @@ int	check_in_order(t_bucket *b, int total)
 }
 
 void	bubblesort(int* array, int len) {
-	int i;
 	int j;
 
-	i = 0;
-	while (i < len)
+	len--;
+	while (len > 0)
 	{
-		j = i;
-		while (j < len - 1) {
+		j = 0;
+		while (j < len) {
 			if (array[j] > array[j + 1])
 			{
 				array[j] = array[ j] ^ array[j + 1];
@@ -144,7 +143,28 @@ void	bubblesort(int* array, int len) {
 				j++;
 			}
 		}
-		i++;
+		len--;
+	}
+}
+
+void	sort_from_pivot(t_bucket *a, t_bucket *b, int pivot, int len)
+{
+	t_link *val;
+
+	val = a->stack;
+	while (len--)
+	{
+		if (val->value < pivot)
+		{
+			ft_printf("pa\n");
+			push(a, b);
+		}
+		else
+		{
+			ft_printf("ra\n");
+			rotate(a);
+		}
+		val = a->stack;
 	}
 }
 
@@ -152,8 +172,10 @@ int main(int ac, char **av)
 {
 	t_bucket main;
 	t_bucket reserve;
-	char	*user_input;
 	int		*array;
+	int		min;
+	int		med;
+	int		max;
 
 	if (ac == 1)
 		return (0);
@@ -171,48 +193,10 @@ int main(int ac, char **av)
 		ft_printf("OK\n");
 		return(0);
 	}
-	while (1)
-	{
-		if (check_in_order(&main, ac - 1))
-		{
-			ft_lnkclear(&(main.stack));
-			ft_printf("OK\n");
-			return(0);
-		}
-		if (!get_next_line(STDIN_FILENO, &user_input))
-			return (0);
-		if (ft_strcmp(user_input, "sa") == 0)
-			swap_first(&main);
-		else if (ft_strcmp(user_input, "sb") == 0)
-			swap_first(&reserve);
-		else if (ft_strcmp(user_input, "ss") == 0)
-		{
-			swap_first(&main);
-			swap_first(&reserve);
-		}
-		else if (ft_strcmp(user_input, "ra") == 0)
-			rotate(&main);
-		else if (ft_strcmp(user_input, "rb") == 0)
-			rotate(&reserve);
-		else if (ft_strcmp(user_input, "rr") == 0)
-		{
-			rotate(&main);
-			rotate(&reserve);
-		}
-		else if (ft_strcmp(user_input, "rra") == 0)
-			reverse_rotate(&main);
-		else if (ft_strcmp(user_input, "rrb") == 0)
-			reverse_rotate(&reserve);
-		else if (ft_strcmp(user_input, "rrr") == 0)
-		{
-			reverse_rotate(&main);
-			reverse_rotate(&reserve);
-		}
-		else if (ft_strcmp(user_input, "pa") == 0)
-			push(&main, &reserve);
-		else if (ft_strcmp(user_input, "pb") == 0)
-			push(&reserve, &main);
-		print_states(&main, &reserve);
-		//print_reverse_states(&main, &reserve);
-	}
+	bubblesort(array, ac - 1);
+	min = array[0];
+	med = array[(ac - 1) / 2 + ((ac - 1) % 2)];
+	max = array[ac - 2];
+	sort_from_pivot(&main, &reserve, med, ac - 1);
+
 }
